@@ -15,7 +15,7 @@
     "ai",
     "blog"
   ],
-  "author": "",
+  "author": "BeyondChats Assignment",
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",

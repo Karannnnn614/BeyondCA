@@ -13,7 +13,7 @@ A full-stack MERN application that scrapes articles from BeyondChats blog, enhan
 ## 🛠️ Tech Stack
 
 **Backend:** Node.js, Express.js, MongoDB, Axios, Cheerio  
-**AI/LLM:** OpenAI GPT-4 / Anthropic Claude, SerpAPI  
+**AI/LLM:** OpenAI GPT-4 / Anthropic Claude / OpenRouter, SerpAPI  
 **Frontend:** React.js, Tailwind CSS, React Router  
 **Deploy:** Render/Railway (Backend), Vercel (Frontend), MongoDB Atlas
 
@@ -89,14 +89,15 @@ npm run enhance
 
 ### Endpoints
 
-| Method | Endpoint          | Description                                                 |
-| ------ | ----------------- | ----------------------------------------------------------- |
-| GET    | `/articles`       | Get all articles (query: `?versionType=original\|enhanced`) |
-| GET    | `/articles/:id`   | Get single article                                          |
-| POST   | `/articles`       | Create article                                              |
-| PUT    | `/articles/:id`   | Update article                                              |
-| DELETE | `/articles/:id`   | Delete article                                              |
-| GET    | `/articles/stats` | Get statistics                                              |
+| Method | Endpoint                | Description                                                 |
+| ------ | ----------------------- | ----------------------------------------------------------- |
+| GET    | `/articles`             | Get all articles (query: `?versionType=original\|enhanced`) |
+| GET    | `/articles/:id`         | Get single article                                          |
+| POST   | `/articles`             | Create article                                              |
+| PUT    | `/articles/:id`         | Update article                                              |
+| DELETE | `/articles/:id`         | Delete article                                              |
+| GET    | `/articles/stats`       | Get statistics                                              |
+| POST   | `/articles/:id/enhance` | Enhance article with AI (on-demand)                         |
 
 ### Example Response
 
@@ -223,7 +224,9 @@ cd server && npm run enhance
 ✅ Article listing with filters  
 ✅ Detail pages with tabs  
 ✅ Original ↔ Enhanced linking  
-✅ References display  
+✅ **On-demand AI enhancement** ("✨ Enhance Now" button)  
+✅ Premium styling for enhanced articles  
+✅ References display with sources  
 ✅ Loading & error states
 
 ## 📝 License
