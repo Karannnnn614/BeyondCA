@@ -194,6 +194,27 @@ class ArticleController {
       next(error);
     }
   }
+
+  /**
+   * Enhance article with AI
+   * POST /api/articles/:id/enhance
+   */
+  async enhanceArticle(req, res, next) {
+    try {
+      const { id } = req.params;
+      const enhancementService = require("../services/enhancementService");
+
+      const result = await enhancementService.enhanceArticle(id);
+
+      res.json(result);
+    } catch (error) {
+      // Return user-friendly error message
+      res.status(400).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
 }
 
 module.exports = new ArticleController();

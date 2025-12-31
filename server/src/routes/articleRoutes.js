@@ -12,4 +12,10 @@ router.get("/:id", articleController.getArticleById.bind(articleController));
 router.put("/:id", articleController.updateArticle.bind(articleController));
 router.delete("/:id", articleController.deleteArticle.bind(articleController));
 
+// Enhancement route
+router.post(
+  "/:id/enhance",
+  articleController.enhanceArticle.bind(articleController)
+);
+
 module.exports = router;
