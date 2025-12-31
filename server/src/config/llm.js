@@ -9,6 +9,15 @@ class LLMProvider {
       this.client = new OpenAI({
         apiKey: process.env.OPENAI_API_KEY,
       });
+    } else if (this.provider === "openrouter") {
+      this.client = new OpenAI({
+        apiKey: process.env.OPENROUTER_API_KEY,
+        baseURL: "https://openrouter.ai/api/v1",
+        defaultHeaders: {
+          "HTTP-Referer": process.env.FRONTEND_URL || "http://localhost:3000",
+          "X-Title": "BeyondChats Article Enhancement",
+        },
+      });
     } else if (this.provider === "anthropic") {
       this.client = new Anthropic({
         apiKey: process.env.ANTHROPIC_API_KEY,
@@ -22,7 +31,7 @@ class LLMProvider {
 
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
-        if (this.provider === "openai") {
+        if (this.provider === "openai" || this.provider === "openrouter") {
           return await this._callOpenAI(systemPrompt, userPrompt, temperature);
         } else if (this.provider === "anthropic") {
           return await this._callAnthropic(
@@ -47,8 +56,13 @@ class LLMProvider {
   }
 
   async _callOpenAI(systemPrompt, userPrompt, temperature) {
+    const modelConfig = {
+      openai: "gpt-4-turbo-preview",
+      openrouter: process.env.OPENROUTER_MODEL || "openai/gpt-4-turbo",
+    };
+
     const response = await this.client.chat.completions.create({
-      model: "gpt-4-turbo-preview",
+      model: modelConfig[this.provider] || "gpt-4-turbo-preview",
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt },
