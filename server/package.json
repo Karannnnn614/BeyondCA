@@ -1,0 +1,37 @@
+{
+  "name": "beyondchats-backend",
+  "version": "1.0.0",
+  "description": "Backend API for BeyondChats article scraping and enhancement system",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "enhance": "node src/scripts/enhanceArticles.js",
+    "scrape": "node src/scripts/scrapeArticles.js"
+  },
+  "keywords": [
+    "mern",
+    "scraping",
+    "ai",
+    "blog"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.0.3",
+    "dotenv": "^16.3.1",
+    "cors": "^2.8.5",
+    "axios": "^1.6.2",
+    "cheerio": "^1.0.0-rc.12",
+    "openai": "^4.24.1",
+    "@anthropic-ai/sdk": "^0.10.2",
+    "morgan": "^1.10.0",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5",
+    "validator": "^13.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
