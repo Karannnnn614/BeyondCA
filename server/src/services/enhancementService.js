@@ -34,17 +34,17 @@ class EnhancementService {
       // Step 1: Search Google for the article title
       const searchResults = await searchService.searchArticles(article.title);
 
-      if (searchResults.length < 2) {
+      if (searchResults.length < 1) {
         throw new Error(
-          `Not enough reference articles found (${searchResults.length}/2 required)`
+          `No reference articles found. Need at least 1 article.`
         );
       }
 
-      // Step 2: Scrape reference articles
+      // Step 2: Scrape reference articles (try to get 2, but 1 is enough)
       const references = [];
       const referenceContents = [];
 
-      for (const result of searchResults.slice(0, 2)) {
+      for (const result of searchResults.slice(0, 3)) {
         const scrapedContent = await scraperService.scrapeReferenceArticle(
           result.url
         );
@@ -57,12 +57,15 @@ class EnhancementService {
           referenceContents.push(scrapedContent);
         }
 
+        // Stop if we have at least 2 successful scrapes
+        if (referenceContents.length >= 2) break;
+
         // Small delay between scrapes
         await this.sleep(1000);
       }
 
       if (referenceContents.length === 0) {
-        throw new Error("Could not scrape reference articles");
+        throw new Error("Could not scrape any reference articles successfully");
       }
 
       // Step 3: Use LLM to enhance the article

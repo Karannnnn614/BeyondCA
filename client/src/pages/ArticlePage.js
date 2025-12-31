@@ -65,7 +65,13 @@ const ArticlePage = () => {
         </button>
 
         {/* Article Header */}
-        <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
+        <div
+          className={`rounded-lg shadow-lg p-8 mb-6 ${
+            article.versionType === "enhanced"
+              ? "bg-gradient-to-br from-purple-50 via-white to-blue-50 border-2 border-purple-200"
+              : "bg-white"
+          }`}
+        >
           <div className="flex items-center gap-2 mb-4">
             <span
               className={`badge ${
@@ -76,14 +82,25 @@ const ArticlePage = () => {
             >
               {article.versionType === "original"
                 ? "📄 Original"
-                : "✨ Enhanced"}
+                : "✨ AI-Enhanced"}
             </span>
+            {article.versionType === "enhanced" && (
+              <span className="px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs font-bold rounded-full shadow-md animate-pulse">
+                ⚡ PREMIUM CONTENT
+              </span>
+            )}
             <span className="text-sm text-gray-500">
               {formatDate(article.publishedDate)}
             </span>
           </div>
 
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1
+            className={`text-4xl font-bold mb-4 ${
+              article.versionType === "enhanced"
+                ? "bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent"
+                : "text-gray-900"
+            }`}
+          >
             {article.title}
           </h1>
 
@@ -207,31 +224,41 @@ const ArticlePage = () => {
 
           {/* Parent Article Link */}
           {article.versionType === "enhanced" && article.parentArticleId && (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+            <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border-2 border-indigo-300 rounded-xl p-5 mb-6 shadow-md">
               <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <svg
-                    className="w-5 h-5 text-blue-600 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  <span className="text-blue-800 font-medium">
-                    This is an enhanced version of an original article
-                  </span>
+                <div className="flex-1">
+                  <div className="flex items-center mb-2">
+                    <svg
+                      className="w-6 h-6 text-indigo-600 mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                      />
+                    </svg>
+                    <span className="text-indigo-900 font-bold text-lg">
+                      🚀 AI-Enhanced Article
+                    </span>
+                  </div>
+                  <p className="text-indigo-700 text-sm">
+                    This article has been enhanced with AI using insights from
+                    top-ranking sources for improved SEO and readability.
+                  </p>
                 </div>
                 <Link
-                  to={`/article/${article.parentArticleId}`}
-                  className="btn-secondary text-sm"
+                  to={`/article/${
+                    typeof article.parentArticleId === "object"
+                      ? article.parentArticleId._id
+                      : article.parentArticleId
+                  }`}
+                  className="ml-4 bg-white text-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-50 transition-all font-medium shadow border-2 border-indigo-200 text-sm whitespace-nowrap"
                 >
-                  View Original
+                  📄 View Original
                 </Link>
               </div>
             </div>
@@ -267,50 +294,99 @@ const ArticlePage = () => {
         </div>
 
         {/* Content Area */}
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <div
+          className={`rounded-lg shadow-lg p-8 ${
+            article.versionType === "enhanced"
+              ? "bg-white border-2 border-purple-100"
+              : "bg-white"
+          }`}
+        >
           {activeTab === "content" && (
-            <div className="prose prose-lg max-w-none">
-              <div dangerouslySetInnerHTML={{ __html: article.contentHtml }} />
-            </div>
+            <>
+              {article.versionType === "enhanced" && (
+                <div className="mb-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 rounded-r-lg">
+                  <div className="flex items-center">
+                    <svg
+                      className="w-5 h-5 text-green-600 mr-2"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <p className="text-green-800 text-sm font-medium">
+                      ✨ This content has been AI-optimized for better
+                      structure, SEO, and readability
+                    </p>
+                  </div>
+                </div>
+              )}
+              <div className="prose prose-lg max-w-none">
+                <div
+                  dangerouslySetInnerHTML={{ __html: article.contentHtml }}
+                />
+              </div>
+            </>
           )}
 
           {activeTab === "references" && article.references && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                References
-              </h2>
-              <p className="text-gray-600 mb-6">
-                This article was enhanced using insights from the following
-                top-ranking sources:
-              </p>
+              <div className="mb-6">
+                <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
+                  📚 References & Sources
+                </h2>
+                <p className="text-gray-600">
+                  This article was enhanced using insights from the following
+                  top-ranking sources:
+                </p>
+              </div>
               <div className="space-y-4">
                 {article.references.map((ref, index) => (
                   <div
                     key={index}
-                    className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                    className="border-2 border-purple-100 rounded-xl p-5 hover:shadow-xl hover:border-purple-300 transition-all bg-gradient-to-r from-white to-purple-50"
                   >
                     <div className="flex items-start">
-                      <div className="flex-shrink-0 w-8 h-8 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center font-semibold mr-3">
+                      <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 text-white rounded-full flex items-center justify-center font-bold text-lg mr-4 shadow-md">
                         {index + 1}
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-semibold text-gray-900 mb-1">
+                        <h3 className="font-bold text-gray-900 mb-2 text-lg">
                           {ref.title}
                         </h3>
                         <a
                           href={ref.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-primary-600 hover:text-primary-700 text-sm break-all"
+                          className="text-purple-600 hover:text-purple-800 text-sm break-all flex items-center gap-1 font-medium"
                         >
-                          {ref.url}
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                            />
+                          </svg>
+                          {ref.url.length > 60
+                            ? ref.url.substring(0, 60) + "..."
+                            : ref.url}
                         </a>
                       </div>
                       <a
                         href={ref.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="ml-2 text-gray-400 hover:text-gray-600"
+                        className="ml-2 p-2 bg-purple-100 hover:bg-purple-200 rounded-lg text-purple-600 hover:text-purple-700 transition-colors"
+                        title="Open in new tab"
                       >
                         <svg
                           className="w-5 h-5"

@@ -13,23 +13,44 @@ const ArticleCard = ({ article }) => {
   };
 
   return (
-    <div className="card">
+    <div
+      className={`card ${
+        article.versionType === "enhanced"
+          ? "border-2 border-purple-200 bg-gradient-to-br from-white to-purple-50 hover:shadow-2xl"
+          : ""
+      }`}
+    >
       <div className="flex items-center justify-between mb-3">
-        <span
-          className={`badge ${
-            article.versionType === "original"
-              ? "badge-original"
-              : "badge-enhanced"
-          }`}
-        >
-          {article.versionType === "original" ? "📄 Original" : "✨ Enhanced"}
-        </span>
+        <div className="flex items-center gap-2">
+          <span
+            className={`badge ${
+              article.versionType === "original"
+                ? "badge-original"
+                : "badge-enhanced"
+            }`}
+          >
+            {article.versionType === "original"
+              ? "📄 Original"
+              : "✨ AI-Enhanced"}
+          </span>
+          {article.versionType === "enhanced" && (
+            <span className="px-2 py-1 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs font-bold rounded-full">
+              PREMIUM
+            </span>
+          )}
+        </div>
         <span className="text-sm text-gray-500">
           {formatDate(article.publishedDate)}
         </span>
       </div>
 
-      <h2 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2">
+      <h2
+        className={`text-xl font-bold mb-2 line-clamp-2 ${
+          article.versionType === "enhanced"
+            ? "bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent"
+            : "text-gray-900"
+        }`}
+      >
         {article.title}
       </h2>
 
@@ -50,9 +71,13 @@ const ArticleCard = ({ article }) => {
 
       <Link
         to={`/article/${article._id}`}
-        className="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium text-sm"
+        className={`inline-flex items-center font-medium text-sm ${
+          article.versionType === "enhanced"
+            ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg hover:from-purple-700 hover:to-blue-700 shadow-md"
+            : "text-primary-600 hover:text-primary-700"
+        }`}
       >
-        Read More
+        {article.versionType === "enhanced" ? "✨ Read Enhanced" : "Read More"}
         <svg
           className="w-4 h-4 ml-1"
           fill="none"
